@@ -1,0 +1,178 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+  <link href="~/jquery-easyui-1.5.1/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/jquery-easyui-1.5.1/themes/icon.css" rel="stylesheet" />
+   @* <script src="~/Scripts/jquery-2.2.1.js"></script>*@
+  
+    <script src="~/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script src="~/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <script>
+        
+
+        
+                   
+        function del(iid) {
+            $.get("/departments/DeleteDepartement", { id: iid }, function (data) {
+                if (data == "ok")
+                    getDeps();
+                else
+                    alert("删除不了");
+            }, "text");
+        }
+            ////function getDeps() {
+            ////    $.get("/departments/GetDepartments", function (data) {
+            ////        $("#tb").empty();
+            ////        $(data).each(function (index, department) {
+            ////            $("#tb").append("<tr><td>" + (index + 1) + "</td><td>" + department.Name +
+            ////                "</td><td><a href='#' onclick='del(" + department.ID + ");'>删除</a><a href='/Departments/EditIndex?id=" + department.ID + "'>修改</a></td<</tr>");
+            ////        });
+            ////    }, "json");
+            ////}
+            //$(function () {
+            //    getDeps();
+            //});
+            function add() {
+                window.location.href = "/departments/AddIndex";
+            }
+       
+        
+    </script>
+    <script type="text/javascript"> 
+        $(function () { $("#dlg").dialog({ closed: true }); });
+        var tb = [{ 
+            text: '添加',
+            iconCls:'icon-add',
+            handler: function () {
+                $("#dlg").dialog({
+                    title: "部门添加--",
+                    iconCls: 'icon-add',
+                    closed: false,
+                    modal:true,
+                    height: 240,
+                    width: 300,
+                    buttons:[
+                        {
+                            text:'保存',
+                            iconCls:'icon-save',
+                            handler:function(){                        
+                                $.get("/departments/AddDepartement", { name: $("#depname").val(), status: 0 }, function (data) {
+                                    if (data == "ok") {
+
+                                        location.href = "/departments/index";
+                                          //$("#dlg").dialog("close");
+                                        //$("#dlg").datagrid("reload");
+                                        //$("#depname").val("");
+                                    }
+                                    else
+                                        alert("失败");
+                                }, "text");
+                            }
+                        },
+                       {
+                           text:'保存',
+                           iconCls:'icon-cancel',
+                           handler:function(){
+                               alert("cancel");
+                           }
+                       }
+                      ]
+                })
+               // window.location.href="/departments/AddIndex";
+                }
+        },{
+            text:'修改' ,
+            iconCls :'icon-edit' ,
+            handler: function () {
+                var id = $("#dg").datagrid("getSelected").ID;
+                //window.location.href = "/departments/EditIndex?id=" + id;
+                var url = "/departments/EditIndex?id=" + id;
+                $("#dlgEdit").dialog({
+                    title: "部门修改--",
+                    iconCls: 'icon-Edit',
+                   
+                    modal: true,
+                    width: 300,
+                    height: 200,
+                    href: url,
+                    buttons: [
+                        {
+                            text: '保存',
+                            iconCls: 'icon-save',
+                            handler: function () {
+                                var name = $("#view_EditIndex_depname").val();
+                                var id = $("#view_EditIndex_Id").val();
+                                console.log(id);
+                                $.get("/departments/EditDepartment",{id:id,name: name, status: 0 }, function (das) {
+
+                                    if (das == "ok")
+                                    {
+                                        //alert("成功");
+                                        $.messager.show({
+                                            title: '提示',
+                                            msg: 'chengg',
+                                            showType:'show'
+                                        });
+                                        $("#dlgEdit").dialog("close");
+                                        $("#dg").datagrid("reload");
+
+                                    }
+                                    else
+
+                                    { alert("修改失败"); }
+                                }, "text")
+                            }
+                        },
+                       {
+                           text: '取消',
+                           iconCls: 'icon-cancel',
+                           handler: function () {
+                               $("#dlgEdit").dialog("close");
+                           }
+                       }
+                    ]
+                });
+               }
+            },'-',{
+            text:'删除' ,
+            iconCls :'icon-remove' ,
+            handler: function () {
+                var id = $("#dg").datagrid("getSelected").ID;
+                $.get("/departments/deleteDepartement", { id: id }, function (data) {
+                    if (data == "ok")
+                        $("#dg").datagrid("reload");
+                }, "text");
+            }
+        }];
+    </script>
+   
+</head>
+<body>
+    <div>
+       
+      
+<table id="dg" class="easyui-datagrid" style="width:50%;height:500px" title="部门管理---" data-options="rownumbers:true,url:'/departments/GetDepartments',fitColums:true,singleSelect:true,toolbar:tb">
+<thead>
+<tr>
+<th data-options="field:'Name',width:100">部门名称</th>
+ </tr>
+</thead>
+
+
+</table>
+
+    </div>
+    
+        <div id="dlg"> 
+         部门名称:<input type="text" id="depname" name="name" />@*<input type="button" value="提交" id="btnsubmit" />  *@ </div>
+         <div id="dlgEdit"></div>
+
+</body>
+</html>

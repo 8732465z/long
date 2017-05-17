@@ -1,0 +1,28 @@
+﻿   @{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+</head>
+<body>
+    <div>
+        部门:<select id="marjors_add_depart"></select><br />
+       @* 专业名称:<input type="text" id="majors_add_major"/><br />*@
+       <input class="easyui-textbox" id="majors_add_major" data-options="prompt:'请输入专业名称'" /><br />
+    </div>
+    <script>
+        $(function () {
+            $.get("/departments/getdepartments", function (data) {
+                $(data).each(function (index, dept) {
+                    $("#marjors_add_depart").append("<option value='" + dept.ID + "'>" + dept.Name + "</option>");
+                });
+            }, "json");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/jquery-easyui-1.5.1/jquery.min.js"></script>
+    <script src="~/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+    <link href="~/jquery-easyui-1.5.1/themes/icon.css" rel="stylesheet" />
+    <link href="~/jquery-easyui-1.5.1/themes/default/easyui.css" rel="stylesheet" />
+    <title>Index</title>
+    <script>
+        $(function () {
+            $("#tb").datagrid({
+                url: '/majors/getmajors',
+                width: 600,
+                height: 500,
+                fitColumns: true,
+                singleSelect: true,
+                toolbar: [
+                    
+                    {
+                        text: '添加',
+                        iconCls: 'icon-add',
+                        handler: function () {
+                            
+                            var url = "/majors/Add";
+                            $("#marjors_add_dlg").dialog({
+                                title:"专业添加--",
+                                iconCls:'icon-add',
+                                modal:true,
+                                width:300,
+                                href:url,
+                                buttons: [
+                       {
+                           text: '保存',
+                           iconCls: 'icon-save',
+                           handler: function () {
+                              
+
+
+
+
+                               var name = $("#majors_add_major").textbox("getValue");
+                               var depid = $("#marjors_add_depart").val();
+                               //console.log(id);
+                               $.get("/majors/addMajors",{DepartmentID:depid,Name: name, Status: 0 }, function (das) {
+
+                                   if (das == "ok")
+                                   {
+                                       //alert("成功");
+                                       $.messager.show({
+                                           title: '提示',
+                                           msg: '成功',
+                                           showType:'show'
+                                       });
+                                       $("#marjors_add_dlg").dialog("close");
+                                       $("#tb").datagrid("reload");
+
+                                   }
+                                   else
+
+                                   { alert("失败"); }
+                               }, "text")
+                           }
+                       },
+                       {
+                           text: '取消',
+                           iconCls: 'icon-cancel',
+                           handler: function () {
+                               $("#dlgEdit").dialog("close");
+                           }
+                       }
+                                ]
+                            });
+                        }
+                    },
+                    {
+                        text: '修改',
+                        icon: 'icon-edit',
+                        handler: function ()
+                        {
+                            var id = $("#tb").datagrid("getSelected").ID;
+                            //window.location.href = "/departments/EditIndex?id=" + id;
+                            var url = "/Majors/Edit?id=" + id;
+                            $("#dlgEdit").dialog({
+                                title: "部门修改--",
+                                iconCls: 'icon-Edit',
+                   
+                                modal: true,
+                                width: 300,
+                                height: 200,
+                               href: url,
+                                buttons: [
+                                    {
+                                        text: '保存',
+                                        iconCls: 'icon-save',
+                                        handler: function () {
+
+
+                                            var name = $("#view_EditIndex_depname").val();
+                                             var id = $("#view_EditIndex_Id").val();
+                                             var we = $("#wwe").val;
+                                            var iid = $("#tb").datagrid("getSelected").ID;
+                                            console.log(id);
+                                            $.get("/Majors/EditMajors", { ID:iid,DepartmentID: id, Name: name, Status: 0 }, function (das) {
+
+                                                if (das == "ok")
+                                                {
+                                                    //alert("成功");
+                                                    $.messager.show({
+                                                        title: '提示',
+                                                        msg: '成功',
+                                                        showType:'show'
+                                                    });
+                                                    $("#dlgEdit").dialog("close");
+                                                    $("#tb").datagrid("reload");
+
+                                                }
+                                                else
+
+                                                { alert("修改失败"); }
+                                            }, "text")
+                                        }
+                                    },
+                       {
+                           text: '取消',
+                           iconCls: 'icon-cancel',
+                           handler: function () {
+                               $("#dlgEdit").dialog("close");
+                           }
+                       }
+                                ]
+                            });
+                        }
+                    }, '-',
+                    {
+                        text: '删除',
+                        iconCls: 'icon-remove',
+                        handler: function () {
+                            var id = $("#tb").datagrid("getSelected").ID;
+                            $.get("/majors/deleteMajors", { id: id }, function (data) {
+                                if (data == "ok")
+                                    $("#tb").datagrid("reload");
+                            }, "text");
+                        }
+                    }
+            
+                ],
+                columns: [[
+                    { field: 'departmentName', title: '部门名称' },
+                    { field: 'Name', title: '专业名称' }
+                ]]
+            });
+        })
+               
+      
+        
+       
+    </script>
+</head>
+<body>
+    <div> 
+    <table id="tb"></table>
+    </div>
+    <div id="marjors_add_dlg"></div>
+        <div id="dlgEdit"></div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TeachDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TeachDBEntities2" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Classes" EntityType="TeachDBModel.Classes" />
+    <EntitySet Name="Departments" EntityType="TeachDBModel.Departments" />
+    <EntitySet Name="Majors" EntityType="TeachDBModel.Majors" />
+    <EntitySet Name="Students" EntityType="TeachDBModel.Students" />
+    <EntitySet Name="TeacherClasses" EntityType="TeachDBModel.TeacherClasses" />
+    <EntitySet Name="Teachers" EntityType="TeachDBModel.Teachers" />
+    <EntitySet Name="学期表" EntityType="TeachDBModel.学期表" />
+    <EntitySet Name="View_TeacherClasses" EntityType="TeachDBModel.View_TeacherClasses" />
+    <AssociationSet Name="FK_Classes_Majors" Association="TeachDBModel.FK_Classes_Majors">
+      <End Role="Majors" EntitySet="Majors" />
+      <End Role="Classes" EntitySet="Classes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Students_Classes" Association="TeachDBModel.FK_Students_Classes">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TeacherClasses_Classes" Association="TeachDBModel.FK_TeacherClasses_Classes">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="TeacherClasses" EntitySet="TeacherClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Departments_Departments" Association="TeachDBModel.FK_Departments_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Departments1" EntitySet="Departments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Majors_Departments" Association="TeachDBModel.FK_Majors_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Majors" EntitySet="Majors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Teachers_Departments" Association="TeachDBModel.FK_Teachers_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Teachers" EntitySet="Teachers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TeacherClasses_Teachers" Association="TeachDBModel.FK_TeacherClasses_Teachers">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="TeacherClasses" EntitySet="TeacherClasses" />
+    </AssociationSet>
+    <FunctionImport Name="AddClasses">
+      <Parameter Name="majorID" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="TeacherID" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Classes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="MajorID" Type="Int32" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Majors" Relationship="TeachDBModel.FK_Classes_Majors" FromRole="Classes" ToRole="Majors" />
+    <NavigationProperty Name="Students" Relationship="TeachDBModel.FK_Students_Classes" FromRole="Classes" ToRole="Students" />
+    <NavigationProperty Name="TeacherClasses" Relationship="TeachDBModel.FK_TeacherClasses_Classes" FromRole="Classes" ToRole="TeacherClasses" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Departments1" Relationship="TeachDBModel.FK_Departments_Departments" FromRole="Departments" ToRole="Departments1" />
+    <NavigationProperty Name="Departments2" Relationship="TeachDBModel.FK_Departments_Departments" FromRole="Departments1" ToRole="Departments" />
+    <NavigationProperty Name="Majors" Relationship="TeachDBModel.FK_Majors_Departments" FromRole="Departments" ToRole="Majors" />
+    <NavigationProperty Name="Teachers" Relationship="TeachDBModel.FK_Teachers_Departments" FromRole="Departments" ToRole="Teachers" />
+  </EntityType>
+  <EntityType Name="Majors">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentID" Type="Int32" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Classes" Relationship="TeachDBModel.FK_Classes_Majors" FromRole="Majors" ToRole="Classes" />
+    <NavigationProperty Name="Departments" Relationship="TeachDBModel.FK_Majors_Departments" FromRole="Majors" ToRole="Departments" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassID" Type="Int32" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="StudentNo" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="TelNum" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="QQ" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="WeChat" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="PTelNo1" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="PTelNo2" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="IsLogin" Type="Int32" Nullable="false" />
+    <Property Name="Stauts" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Classes" Relationship="TeachDBModel.FK_Students_Classes" FromRole="Students" ToRole="Classes" />
+  </EntityType>
+  <EntityType Name="TeacherClasses">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="TeacherID" Type="Int32" />
+    <Property Name="ClassID" Type="Int32" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Classes" Relationship="TeachDBModel.FK_TeacherClasses_Classes" FromRole="TeacherClasses" ToRole="Classes" />
+    <NavigationProperty Name="Teachers" Relationship="TeachDBModel.FK_TeacherClasses_Teachers" FromRole="TeacherClasses" ToRole="Teachers" />
+  </EntityType>
+  <EntityType Name="Teachers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DeptID" Type="Int32" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="TeacherNo" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="IsLogin" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Departments" Relationship="TeachDBModel.FK_Teachers_Departments" FromRole="Teachers" ToRole="Departments" />
+    <NavigationProperty Name="TeacherClasses" Relationship="TeachDBModel.FK_TeacherClasses_Teachers" FromRole="Teachers" ToRole="TeacherClasses" />
+  </EntityType>
+  <EntityType Name="学期表">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="View_TeacherClasses">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="TeacherName" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="TeacherNo" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="MajorID" Type="Int32" />
+    <Property Name="TeacherID" Type="Int32" />
+    <Property Name="TeacherClassID" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Classes_Majors">
+    <End Role="Majors" Type="TeachDBModel.Majors" Multiplicity="0..1" />
+    <End Role="Classes" Type="TeachDBModel.Classes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Majors">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Classes">
+        <PropertyRef Name="MajorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Students_Classes">
+    <End Role="Classes" Type="TeachDBModel.Classes" Multiplicity="0..1" />
+    <End Role="Students" Type="TeachDBModel.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="ClassID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TeacherClasses_Classes">
+    <End Role="Classes" Type="TeachDBModel.Classes" Multiplicity="0..1" />
+    <End Role="TeacherClasses" Type="TeachDBModel.TeacherClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TeacherClasses">
+        <PropertyRef Name="ClassID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Departments_Departments">
+    <End Role="Departments" Type="TeachDBModel.Departments" Multiplicity="1" />
+    <End Role="Departments1" Type="TeachDBModel.Departments" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Departments1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Majors_Departments">
+    <End Role="Departments" Type="TeachDBModel.Departments" Multiplicity="0..1" />
+    <End Role="Majors" Type="TeachDBModel.Majors" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Majors">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Teachers_Departments">
+    <End Role="Departments" Type="TeachDBModel.Departments" Multiplicity="0..1" />
+    <End Role="Teachers" Type="TeachDBModel.Teachers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Teachers">
+        <PropertyRef Name="DeptID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TeacherClasses_Teachers">
+    <End Role="Teachers" Type="TeachDBModel.Teachers" Multiplicity="0..1" />
+    <End Role="TeacherClasses" Type="TeachDBModel.TeacherClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TeacherClasses">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

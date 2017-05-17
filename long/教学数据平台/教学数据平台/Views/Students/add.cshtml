@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>add</title>
+</head>
+<body>
+    <div style="margin:10px">
+        <form id="teachers_add" method="post">
+
+            <input id="teachers_add_depart" type="hidden" name="ID" value="@ViewBag.ID" />
+            <div class="input_line">
+            <label class="leftlabel">班级名称</label><input class="easyui-textbox"id="classname" name="classID"/>
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">姓名：</label><input class="easyui-textbox" id="studentname" name="Name" data-options="prompt:'请输入姓名'">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">学生号：</label><input class="easyui-textbox" id="studentno" name="StudentNo" data-options="prompt:'请输入教工号'">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">密码</label><input class="easyui-textbox" id="password"  name="Password">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">是否管理员：</label><input type="checkbox" id="islogin" value="1" name="IsLogin">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">QQ</label><input class="easyui-textbox" id="QQ"  name="QQ">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">微信号</label><input class="easyui-textbox" id="wechat"  name="WeChat">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">电话号</label><input class="easyui-textbox" id="tel"  name="TelNum">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">手机号1</label><input class="easyui-textbox" id="ph1"  name="PtelNo1">
+            </div>
+            <div class="input_line">
+                <label class="leftlabel">手机号2</label><input class="easyui-textbox" id="ph2"  name="PtelNo2">
+            </div>
+</form>
+    </div>
+    <script>
+        $(function () {
+            $("#classname").combobox({
+                url: "/classes/getclasseslist",
+                valueField: 'ID',
+                textField: "Name"
+            });
+
+        });
+    </script>
+</body>
+</html>

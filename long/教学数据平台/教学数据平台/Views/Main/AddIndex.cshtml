@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddIndex</title>
+    <script src="~/Scripts/jquery-2.2.1.js"></script>
+    <script>
+        $(function () {
+            $("#btnsubmit").click(function () {
+
+                $.get("/departments/AddDepartment", { name: $("#depname").val(), status: 0 }, function (data) {
+                    if (data == "ok")
+                        location.href = "/departments/index";
+                    else
+                        alert("失败");
+                }, "text");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+     部门名称:<input type="text" id="depname" name="name" /><input type="button" value="提交" id="btnsubmit" />   
+    </div>
+</body>
+</html>

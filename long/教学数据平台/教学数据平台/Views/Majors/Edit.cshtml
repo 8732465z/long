@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@Model Majors;
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <script src="~/Scripts/jquery-2.2.1.js"></script>
+</head>
+<body>
+    <div>
+    
+   @* <select id="marjors_add_depart" ></select><br />*@
+     部门名称:<input  id="view_EditIndex_Id" value="@Model.DepartmentID" />
+     <input type=hidden id="wwe" value="@Model.ID" />  
+     <input type="text" id="view_EditIndex_depname" name="name" value="@Model.Name" />
+        
+    </div>
+    <script>
+        $(function () {
+            //$.get("/departments/getdepartments", function (data) {
+            //    $(data).each(function (index, dept) {
+            //        $("#marjors_add_depart").append("<option value='" + dept.ID + "'>" + dept.Name + "</option>");
+                   
+            //    });
+            //}, "json");
+            //$("#marjors_add_depart").text("#view_EditIndex_Id")
+            $("#view_EditIndex_Id").combobox({
+                url: "/departments/getdepartments",
+                valueField: 'ID',
+                textField: 'Name'
+            });
+
+        });
+    </script>
+</body>
+</html>

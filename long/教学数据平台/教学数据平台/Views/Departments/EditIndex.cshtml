@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+@Model Departments;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditIndex</title>
+     <script src="~/Scripts/jquery-2.2.1.js"></script>
+    <script src="~/Scripts/jquery_ext_hbsi.js"></script>
+   
+    <script>
+       
+        //$(function () {
+        //    var iid = $.getUrlParam('id');
+        //    $.get("/departments/GetDepartmentById",{id:iid },function (data){
+        //        $(data).each(function(index,department){
+        //            $("#depname").val(department.Name);
+        //        })
+        //        }, "json")
+        //        $("#btnsubmit").click(function () {
+        //            $.get("/departments/EditDepartment",{ id:iid, name: $("#depname").val(), status: 0 }, function (das) {
+                       
+        //                if (das == "ok")
+        //                { }
+        //                    //{ location.href = "/GetDepartments/Index"; }
+
+
+        //                else
+
+        //                { alert("修改失败"); }
+        //            }, "text")   
+        //        })
+        //    });
+        
+             </script>
+        
+   
+</head>
+<body>
+    <div>
+    
+         部门名称:@*<input type="text" id="depname" name="name" value="@ViewBag.DepartmentName" />*@
+       @*  <input type="text" id="depname" name="name" value="@Model.Name" />*@
+         <input type=hidden id="view_EditIndex_Id" value="@Model.ID" />
+         <input type="text" id="view_EditIndex_depname" name="name" value="@Model.Name" />
+        @* <input type=submit id="btnsubmit" value="修改" />*@
+           @*<table><thead><tr><td>序号</td><td>部门名称</td><td></td></tr></thead><tbody id="tb"></tbody></table>*@
+
+    </div>
+</body>
+</html>
